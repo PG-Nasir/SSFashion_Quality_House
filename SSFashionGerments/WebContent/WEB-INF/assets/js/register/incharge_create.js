@@ -1,0 +1,318 @@
+let departmentIdForSet = 0;
+
+
+window.onload = ()=>{
+	document.title = "Incharge Create";
+} 
+
+function factoryWiseDepartmentLoad() {
+  const factoryId = $("#factoryName").val();
+  if (factoryId != 0) {
+    $("#loader").show();
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: './factorytWiseDepartment/' + factoryId,
+      data: {},
+      success: function (data) {
+
+        let options = "<option value='0'>Select Department</option>";
+        const length = data.departmentList.length;
+        const departmentList = data.departmentList;
+        for (let i = 0; i < length; i++) {
+          options += "<option value='" + departmentList[i].departmentId + "'>" + departmentList[i].departmentName + "</option>";
+        }
+
+        document.getElementById("departmentName").innerHTML = options;
+        document.getElementById("departmentName").value = departmentIdForSet;
+        departmentIdForSet = 0;
+        $("#loader").hide();
+      }
+    });
+  }
+
+}
+function saveAction() {
+
+
+  let name = $("#name").val();
+  let factoryId = $("#factoryName").val();
+  let depId = $("#departmentName").val();
+  let telephone = $("#telephone").val();
+  let mobile = $("#mobile").val();
+  let fax = $("#fax").val();
+  let email = $("#email").val();
+  let skype = $("#skype").val();
+  let address = $("#address").val();
+  let userId = $("#userId").val();
+
+
+  if (name != '') {
+    if(factoryId != 0){
+      if(depId != 0){
+        $("#loader").show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: './saveIncharge',
+          data: {
+            inchargeId: "0",
+            name: name,
+            factoryId: factoryId,
+            depId: depId,
+            telephone: telephone,
+            mobile: mobile,
+            fax: fax,
+            email: email,
+            skype: skype,
+            address: address,
+            userId: userId
+          },
+          success: function (data) {
+            if (data.result == "Something Wrong") {
+              dangerAlert("Something went wrong");
+            } else if (data.result == "duplicate") {
+              dangerAlert("Duplicate Incharge Name..This Incharge Name Allreary Exist")
+            } else {
+              successAlert("Incharge Item Name Save Successfully");
+    
+              $("#dataList").empty();
+              $("#dataList").append(drawDataTable(data.result));
+    
+            }
+            $("#loader").hide();
+          }
+        });
+      }else{
+        warningAlert("Please Select Department Name");
+        $("#factoryName").focus();
+      }
+    }else{
+      warningAlert("Please Select Factory Name");
+      $("#factoryName").focus();
+    }
+    
+  } else {
+    warningAlert("Empty Incharge Name... Please Enter Incharge Name");
+  }
+}
+
+
+function editAction() {
+  let inchargeId = $("#inchargeId").val();
+  let name = $("#name").val();
+  let factoryId = $("#factoryName").val();
+  let depId = $("#departmentName").val();
+  let telephone = $("#telephone").val();
+  let mobile = $("#mobile").val();
+  let fax = $("#fax").val();
+  let email = $("#email").val();
+  let skype = $("#skype").val();
+  let address = $("#address").val();
+  let userId = $("#userId").val();
+
+  if (name != '') {
+    if(factoryId != 0){
+      if(depId != 0){
+        $("#loader").show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: './editIncharge',
+          data: {
+            inchargeId: inchargeId,
+            name: name,
+            factoryId: factoryId,
+            depId: depId,
+            telephone: telephone,
+            mobile: mobile,
+            fax: fax,
+            email: email,
+            skype: skype,
+            address: address,
+            userId: userId
+          },
+          success: function (data) {
+            if (data.result == "Something Wrong") {
+              dangerAlert("Something went wrong");
+            } else if (data.result == "duplicate") {
+              dangerAlert("Duplicate Incharge Name..This Incharge Name Allreary Exist")
+            } else {
+              successAlert("Incharge Name Edit Successfully");
+    
+              $("#dataList").empty();
+              $("#dataList").append(drawDataTable(data.result));
+    
+            }
+            $("#loader").hide();
+          }
+        });
+      }else{
+        warningAlert("Please Select Department Name");
+        $("#factoryName").focus();
+      }
+    }else{
+      warningAlert("Please Select Factory Name");
+      $("#factoryName").focus();
+    }
+    
+  } else {
+    warningAlert("Empty Fabrics Item Name... Please Enter Fabrics Item Name");
+  }
+}
+
+
+function refreshAction() {
+  location.reload();
+  /*let element = $(".alert");
+  element.hide();
+  document.getElementById("fabricsItemId").value = "0";
+  document.getElementById("fabricsItemName").value = "";
+  document.getElementById("reference").value = "";
+  document.getElementById("btnSave").disabled = false;
+  document.getElementById("btnEdit").disabled = true;*/
+}
+
+
+function setData(inchargeId) {
+
+
+  document.getElementById("inchargeId").value = inchargeId;
+  document.getElementById("name").value = document.getElementById("name" + inchargeId).innerHTML;
+  document.getElementById("telephone").value = document.getElementById("telephone" + inchargeId).innerHTML;
+  document.getElementById("mobile").value = document.getElementById("mobile" + inchargeId).value;
+  document.getElementById("fax").value = document.getElementById("fax" + inchargeId).value;
+  document.getElementById("email").value = document.getElementById("email" + inchargeId).value;
+  document.getElementById("skype").value = document.getElementById("skype" + inchargeId).value;
+  document.getElementById("address").value = document.getElementById("address" + inchargeId).value;
+  departmentIdForSet = document.getElementById("depId" + inchargeId).value;
+  document.getElementById("factoryName").value = document.getElementById("factory" + inchargeId).value;
+  $("#factoryName").change();
+  console.log("department Id",document.getElementById("depId" + inchargeId).value);
+  
+  $("#btnSave").hide();
+  $("#btnEdit").show();
+
+}
+
+function drawDataTable(data) {
+  let rows = [];
+  let length = data.length;
+
+  for (let i = 0; i < length; i++) {
+    rows.push(drawRowDataTable(data[i], i + 1));
+  }
+
+  return rows;
+}
+
+function drawRowDataTable(rowData, c) {
+
+  let row = $("<tr />")
+  row.append($("<td>" + c + "</td>"));
+  row.append($("<td id='name" + rowData.inchargeId + "'>" + rowData.name + "</td>"));
+  row.append($("<td id='telephone" + rowData.inchargeId + "'>" + rowData.telephone + "</td>"));
+  row.append($(`<td > <input type="hidden"
+  id='mobile${rowData.inchargeId}'
+  value="${rowData.mobile}" /><input type="hidden"
+  id='fax${rowData.inchargeId}'
+  value="${rowData.fax}" /><input type="hidden"
+  id='email${rowData.inchargeId}'
+  value="${rowData.email}" /><input type="hidden"
+  id='address${rowData.inchargeId}'
+  value="${rowData.address}" /> <input type="hidden"
+  id='skype${rowData.inchargeId}'
+  value="${rowData.skype}" /> <input type="hidden"
+  id='factory${rowData.inchargeId}'
+  value="${rowData.factoryId}" /> <input type="hidden"
+  id='depId${rowData.inchargeId}'
+  value="${rowData.depId}" /> <i class='fa fa-edit' onclick='setData("${rowData.inchargeId}")'> </i></td>`));
+
+  return row;
+}
+
+function successAlert(message) {
+  let element = $(".alert");
+  element.hide();
+  element = $(".alert-success");
+  document.getElementById("successAlert").innerHTML = "<strong>Success!</strong> " + message + "...";
+  element.show();
+  setTimeout(() => {
+    element.toggle('fade');
+  }, 2500);
+}
+
+function warningAlert(message) {
+  let element = $(".alert");
+  element.hide();
+  element = $(".alert-warning");
+  document.getElementById("warningAlert").innerHTML = "<strong>Warning!</strong> " + message + "..";
+  element.show();
+  setTimeout(() => {
+    element.toggle('fade');
+  }, 2500);
+}
+
+function dangerAlert(message) {
+  let element = $(".alert");
+  element.hide();
+  element = $(".alert-danger");
+  document.getElementById("dangerAlert").innerHTML = "<strong>Duplicate!</strong> " + message + "..";
+  element.show();
+  setTimeout(() => {
+    element.toggle('fade');
+  }, 2500);
+}
+
+$(document).ready(function () {
+  $("input:text").focus(function () { $(this).select(); });
+});
+
+$(document).ready(function () {
+  $("#search").on("keyup", function () {
+    let value = $(this).val().toLowerCase();
+    $("#dataList tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+/*let idListMicro = ["name","factoryName","departmentName","telephone","mobile","fax","email","skype","address","btnSave"];
+idListMicro.forEach((id,index)=>{
+  $('#'+id).keyup(function(event){
+    if(event.keyCode ===13){
+      event.preventDefault();
+      $("#"+idListMicro[index+1]).focus();
+    }
+  });
+})*/
+
+/*$('input,select').on('keypress', function (e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        var $next = $('[tabIndex=' + (+this.tabIndex + 1) + ']');
+        if (!$next.length) {
+            $next = $('[tabIndex=1]');
+        }
+        $next.focus();
+    }
+});*/
+
+jQuery.extend(jQuery.expr[':'], {
+    focusable: function (el, index, selector) {
+        return $(el).is('a, button, :input, [tabindex]');
+    }
+});
+
+$(document).on('keypress', 'input,select', function (e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        // Get all focusable elements on the page
+        var $canfocus = $(':focusable');
+        var index = $canfocus.index(document.activeElement) + 1;
+        if (index >= $canfocus.length) index = 0;
+        $canfocus.eq(index).focus();
+    }
+});
+

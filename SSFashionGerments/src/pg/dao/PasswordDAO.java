@@ -1,0 +1,51 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pg.dao;
+
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import noticeModel.noticeModel;
+import pg.OrganizationModel.OrganizationInfo;
+import pg.model.Login;
+import pg.model.Menu;
+import pg.model.Module;
+import pg.model.Password;
+import pg.model.WareInfo;
+
+/**
+ *
+ * @author nasir
+ */
+public interface PasswordDAO {
+	
+	public List<Login> login(String username, String password);
+	public List<WareInfo> getAllStoreName();
+	public List<Module> getAllModuleName();
+	public List<Menu> getAllMenuName();
+
+	public List<Module> getUserModule(int i);
+	public List<Menu> getUserMenu(int i,int moduleId);
+	public List<Menu> getAdminUserMenu(int i,int moduleId);
+	
+	public List<OrganizationInfo> getOrganizationInfo();
+	public boolean changePassword(String userId, String userName, String password);
+	
+	public String getUserDepartmentId(String userId);
+	
+	public List<noticeModel> getNotice(String depid,noticeModel nm);
+	
+	public JSONArray getRolePermissions(String roleIds);
+	public String saveUserProfile(String userInfo);
+	public String editUserProfile(String userInfo);
+	public JSONArray getUserList();
+	public JSONObject getUserInfo(String userId);
+	
+}
+    

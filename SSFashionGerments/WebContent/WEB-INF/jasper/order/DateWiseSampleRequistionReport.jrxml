@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SampleRequistionReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="377a337c-4aa5-44a9-be36-095e611eeb74">
+	<property name="ireport.zoom" value="1.818181818181822"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="sql" class="java.lang.String">
+		<defaultValueExpression><![CDATA["select a.sampleReqId,a.PurchaseOrder,(lo.username) as merchendiser,b.dateLine,b.samplerequestdate,g.name,d.StyleNo,e.itemid,e.itemname,a.sizeGroupId from TbSampleRequisitionDetails a  left join tbSampleRequisition b  on a.sampleReqId=b.sampleReqId  left join TbStyleCreate d  on a.StyleId=d.StyleId  left join tbItemDescription e  on a.ItemId=e.itemid  left join tbBuyer g  on a.buyerId=g.id left join tblogin lo on a.UserId=lo.id left join TbSampleTypeInfo s  on s.AutoId=a.SampleTypeId  where a.date='2021-04-18' and a.UserId='7'  group by s.Name,a.sampleReqId,g.name,a.PurchaseOrder,b.dateLine,b.samplerequestdate,d.StyleNo,e.itemid,e.itemname,lo.username,a.sizeGroupId order by a.sampleReqId,a.sizeGroupId"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/production/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[$P!{sql}]]>
+	</queryString>
+	<field name="sampleReqId" class="java.lang.String"/>
+	<field name="PurchaseOrder" class="java.lang.String"/>
+	<field name="merchendiser" class="java.lang.String"/>
+	<field name="dateLine" class="java.util.Date"/>
+	<field name="samplerequestdate" class="java.util.Date"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="StyleNo" class="java.lang.String"/>
+	<field name="itemid" class="java.lang.Integer"/>
+	<field name="itemname" class="java.lang.String"/>
+	<field name="sizeGroupId" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="14" width="550" height="36" uuid="18c9c72d-ec08-46eb-a7c0-b2b5cc40d424"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quality Fashion Wear Ltd.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="48" width="550" height="11" uuid="38029cf2-7354-4149-932f-495bf7685173"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Block-A,Plot A/2 (Part),BSCIC Industrial Estate,Baized Bostami,Road Chittagong,Bangladesh]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="40" width="550" height="11" uuid="8d138bbe-30db-434d-92b7-5c28fe3684d9"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Manufactures and Exporter of Readymade Garments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="57" width="550" height="11" uuid="f1dc71ac-ca90-430f-994b-9528f877d19f"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tel:+88-031-2583247,2583245,Email:ssfashionwear@gmail.com liton@ssfashionwear.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="72" width="550" height="1" uuid="0e238630-b9ad-4615-910e-94f7b37dffba"/>
+				<graphicElement>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="1" width="551" height="18" uuid="d573554a-9fe8-476d-82c8-e2740a9a3d40"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Sample Requisition]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="40" width="3" height="18" uuid="508c1200-3182-4225-aa4f-470f827a88b3"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="25" width="3" height="18" uuid="0c3ff77c-b4c7-4d05-88d4-50f78ff3baf5"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="465" y="26" width="89" height="17" uuid="c3d82541-3db7-462d-91db-2e8659800e4a"/>
+				<textFieldExpression><![CDATA[$F{dateLine}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="29" width="94" height="14" uuid="90d769df-5477-4383-8ec2-f6420c41f809"/>
+				<text><![CDATA[Buyer Name]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="398" y="23" width="158" height="38" uuid="d439164f-ed9b-4284-92d0-3c4935938dae"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="4" y="21" width="254" height="34" uuid="44582beb-4754-4732-8f33-a59406be965b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="399" y="25" width="69" height="18" uuid="b733a596-77a9-4890-938f-b92037e12f04"/>
+				<text><![CDATA[Dilivery Date]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="473" y="40" width="80" height="18" uuid="61564e4d-e990-458d-b190-533be2ec7610"/>
+				<textFieldExpression><![CDATA[$F{samplerequestdate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="399" y="40" width="69" height="18" uuid="03e08489-83cc-4c6c-8efc-6fe0a7f58427"/>
+				<text><![CDATA[Handover Date]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="23" width="155" height="14" uuid="4119c9ff-3a93-4a2b-8c79-06d8e5d1489a"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="23" width="92" height="14" uuid="e6bca5d1-7908-4988-ae91-4aaad829ec48"/>
+				<text><![CDATA[Buyer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="39" width="92" height="14" uuid="0bfbd5a2-40d1-4d8b-b7de-c1fc6f2fb3b1"/>
+				<text><![CDATA[Merchendiser Name]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="39" width="155" height="14" uuid="c2e800c6-8a17-4f0c-bfa1-e4957177ccdf"/>
+				<textFieldExpression><![CDATA[$F{merchendiser}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="473" y="26" width="80" height="17" uuid="d6da0c63-839d-42f8-95c1-a4e870e50207"/>
+				<textFieldExpression><![CDATA[$F{dateLine}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="468" y="40" width="3" height="18" uuid="c56c5b8a-41db-4890-944c-eb520542f5a4"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="25" width="3" height="18" uuid="5b251e6f-025f-4e59-ba24-57a20296c39a"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="100" y="22" width="1" height="34" uuid="ecd6e0c1-5f3c-452d-8882-d91f93d2ef93"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="4" splitType="Stretch">
+			<subreport>
+				<reportElement x="5" y="1" width="547" height="1" uuid="f50c8112-9f95-4085-af58-4fdbb1dde554"/>
+				<subreportParameter name="sampleReqId">
+					<subreportParameterExpression><![CDATA[$F{sampleReqId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="sizeGroupId">
+					<subreportParameterExpression><![CDATA[$F{sizeGroupId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="itemId">
+					<subreportParameterExpression><![CDATA[$F{itemid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "SampleRequsitionSize.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
